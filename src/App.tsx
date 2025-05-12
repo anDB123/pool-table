@@ -1,5 +1,5 @@
 import './App.scss'
-import { PoolGame } from './poolGame'
+import { PoolGame } from './PoolGame'
 function App() {
   return (
     <>
