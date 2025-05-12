@@ -1,0 +1,204 @@
+#backboard {
+  margin: auto;
+  display: flex;
+  width: 1540px;
+  height: 840px;
+  background: #512814;
+  border-radius: 50px;
+}
+
+#cloth {
+  position: relative;
+  width: 1400px;
+  height: 700px;
+  background: #076701;
+  margin: auto;
+  margin-top: 70px;
+}
+
+#pocket1 {
+  position: absolute;
+  background: #000000;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  top: 0;
+  left: 0;
+}
+
+#pocket2 {
+  position: absolute;
+  background: #000000;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  top: 0;
+  left: 50%;
+}
+
+#pocket3 {
+  position: absolute;
+  background: #000000;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  transform: translate(50%, -50%);
+  top: 0;
+  right: 0;
+}
+
+#pocket4 {
+  position: absolute;
+  background: #000000;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  transform: translate(-50%, 50%);
+  bottom: 0;
+  left: 0;
+}
+
+#pocket5 {
+  position: absolute;
+  background: #000000;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  transform: translate(-50%, 50%);
+  bottom: 0;
+  left: 50%;
+}
+
+#pocket6 {
+  position: absolute;
+  background: #000000;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  transform: translate(50%, 50%);
+  bottom: 0;
+  right: 0;
+}
+
+#cushion1 {
+  position: absolute;
+  background: #0a4806;
+  width: 625px;
+  height: 25px;
+  -webkit-clip-path: polygon(30px 0%, 595px 0%, 100% 100%, 0% 100%);
+          clip-path: polygon(30px 0%, 595px 0%, 100% 100%, 0% 100%);
+  left: 37.5px;
+  top: 0;
+  transform: rotate(180deg);
+}
+
+#cushion2 {
+  position: absolute;
+  background: #0a4806;
+  width: 625px;
+  height: 25px;
+  -webkit-clip-path: polygon(30px 0%, 595px 0%, 100% 100%, 0% 100%);
+          clip-path: polygon(30px 0%, 595px 0%, 100% 100%, 0% 100%);
+  right: 37.5px;
+  top: 0;
+  transform: rotate(180deg);
+}
+
+#cushion3 {
+  position: absolute;
+  background: #0a4806;
+  width: 625px;
+  height: 25px;
+  -webkit-clip-path: polygon(30px 0%, 595px 0%, 100% 100%, 0% 100%);
+          clip-path: polygon(30px 0%, 595px 0%, 100% 100%, 0% 100%);
+  left: 37.5px;
+  bottom: 0;
+}
+
+#cushion4 {
+  position: absolute;
+  background: #0a4806;
+  width: 625px;
+  height: 25px;
+  -webkit-clip-path: polygon(30px 0%, 595px 0%, 100% 100%, 0% 100%);
+          clip-path: polygon(30px 0%, 595px 0%, 100% 100%, 0% 100%);
+  right: 37.5px;
+  bottom: 0;
+}
+
+#cushion5 {
+  position: absolute;
+  background: #0a4806;
+  height: 625px;
+  width: 25px;
+  -webkit-clip-path: polygon(0 0, 100% 30px, 100% 595px, 0 100%);
+          clip-path: polygon(0 0, 100% 30px, 100% 595px, 0 100%);
+  left: 0;
+  top: 37.5px;
+}
+
+#cushion6 {
+  position: absolute;
+  background: #0a4806;
+  height: 625px;
+  width: 25px;
+  -webkit-clip-path: polygon(0 0, 100% 30px, 100% 595px, 0 100%);
+          clip-path: polygon(0 0, 100% 30px, 100% 595px, 0 100%);
+  top: 37.5px;
+  right: 0;
+  transform: rotate(180deg);
+}
+
+.pip {
+  margin: auto;
+  background-color: #D9D9D9;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  top: -35px;
+  transform: translate(-50%, -50%);
+}
+
+#topPips {
+  position: absolute;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  width: 100%;
+  height: 0;
+  top: 0;
+  transform: translate(10px, -35px);
+}
+
+#botPips {
+  position: absolute;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  width: 100%;
+  height: 0;
+  bottom: 0;
+  transform: translate(10px, 35px);
+}
+
+#leftPips {
+  position: absolute;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  width: 0%;
+  height: 100%;
+  bottom: 0;
+  left: 0;
+  transform: translate(-35px, 10px);
+}
+
+#rightPips {
+  position: absolute;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  width: 0%;
+  height: 100%;
+  bottom: 0;
+  right: 0;
+  transform: translate(35px, 10px);
+}/*# sourceMappingURL=App.css.map */
