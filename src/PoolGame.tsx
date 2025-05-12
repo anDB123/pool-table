@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import "./PoolGame.scss"
 export function PoolGame() {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -6,7 +6,7 @@ export function PoolGame() {
 
     const ballRadius = 20;
     const minVel = 5;
-    const dragEquation = (speedVector) => {
+    const dragEquation = (speedVector: number[]) => {
         let x = speedVector[0];
         let y = speedVector[1];
         if ((x ** 2 + y ** 2) ** 0.5 < 0.1)
@@ -22,7 +22,7 @@ export function PoolGame() {
         y -= drag * Math.cos(angle);
         return [x, y];
     }
-    const poolBalls = ["white", "red", "blue", "green", "yellow", "purple", "orange", "black"];
+    const poolBalls = useMemo(() => ["white", "red", "blue", "green", "yellow", "purple", "orange", "black"], []);
 
     const ballPosRef = useRef<number[][]>([]);
     const ballVelRef = useRef<number[][]>([]);
@@ -50,7 +50,7 @@ export function PoolGame() {
                 i--;
         }
     }, [poolBalls]);
-    const drawPoolBall = (ctx, color, x, y,) => {
+    const drawPoolBall = (ctx: CanvasRenderingContext2D, color: string, x: number, y: number,) => {
         ctx.beginPath();
         ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
         ctx.fillStyle = color;
@@ -96,27 +96,27 @@ export function PoolGame() {
         }
     }
 
-    function isCollideX(x) {
+    function isCollideX(x: number) {
         if (x < 40 || x > 1360)
             return true;
         return false;
     }
-    function isCollideY(y) {
+    function isCollideY(y: number) {
         if (y < 40 || y > 660)
             return true;
         return false;
     }
 
-    function ballsCollsion(x1, y1, x2, y2) {
+    function ballsCollsion(x1: number, y1: number, x2: number, y2: number) {
         const distance = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
         return (distance <= 2 * ballRadius);
 
     }
-    function ballsAngle(x1, y1, x2, y2) {
+    function ballsAngle(x1: number, y1: number, x2: number, y2: number) {
         const angle = Math.atan((y2 - y1) / (x2 - x1));
         return angle;
     }
-    function isInPocket(x, y) {
+    function isInPocket(x: number, y: number) {
         if (x < 50 && y < 50)
             return true;
         if (x > 1350 && y < 50)
@@ -131,41 +131,8 @@ export function PoolGame() {
             return true;
         return false;
     }
-    function between(x1, x2, x) {
-        return ((x1 < x && x < x2) || (x2 < x && x < x1))
-    }
-    function getGhostCoordinates(mouseX, mouseY) {
-        // non-working code
-        return;
-        const whiteX = ballPosRef.current[0][0];
-        const whiteY = ballPosRef.current[0][1];
-        const gradient = (mouseY - whiteY) / (mouseX - whiteX);
-        const intersect = mouseY - gradient * mouseX;
-        let ghostX = 0;
-        let ghostY = 0;
-        for (let i = 1; i < poolBalls.length; i++) {
-            const targetX = ballPosRef.current[i][0];
-            const targetY = ballPosRef.current[i][1];
-            if (between(whiteX, mouseX, targetX)) {
-                if (between(targetY - 2 * ballRadius, targetY + 2 * ballRadius, gradient * targetX + intersect)) {
-                    const phi = Math.atan(gradient);
-                    const k = gradient * targetX + intersect - targetY;
-                    const d = k * Math.sin(Math.PI / 2 - phi);
-                    const theta = Math.asin(d / (2 * ballRadius));
-                    const angle = theta - phi;
-                    if (targetX < mouseX) {
-                        ghostX = targetX + 2 * ballRadius * Math.sin(angle - Math.PI / 2);
-                        ghostY = targetY + 2 * ballRadius * Math.cos(angle - Math.PI / 2);
-                    }
-                    else {
-                        ghostX = targetX - 2 * ballRadius * Math.sin(-angle - Math.PI / 2);
-                        ghostY = targetY - 2 * ballRadius * Math.cos(-angle - Math.PI / 2);
-                    }
-                }
-            }
-        }
-        return [ghostX, ghostY];
-    }
+
+
     useEffect(() => {
         reset();
         const canvas = canvasRef.current;
