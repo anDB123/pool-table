@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import "./PoolGame.scss"
 export function PoolGame() {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
-
+    const [score, setScore] = useState(0);
 
     const ballRadius = 20;
     const minVel = 5;
@@ -31,6 +31,7 @@ export function PoolGame() {
     const areBallsMoving = useRef(true);
 
     const reset = useCallback(() => {
+        setScore(0);
         pottedRef.current = Array(poolBalls.length).fill(false);
         ballPosRef.current = [];
         ballVelRef.current = [];
@@ -60,6 +61,7 @@ export function PoolGame() {
 
 
     function addWhiteVel(event: React.MouseEvent<HTMLCanvasElement>) {
+        setScore(prev => prev - 1);
         if (areBallsMoving.current)
             return;
         if (pottedRef.current[0]) {
@@ -97,14 +99,18 @@ export function PoolGame() {
     }
 
     function isCollideX(x: number) {
-        if (x < 40 || x > 1360)
-            return true;
-        return false;
+        if (x < 40)
+            return 40;
+        if (x > 1360)
+            return 1360;
+        return 0;
     }
     function isCollideY(y: number) {
-        if (y < 40 || y > 660)
-            return true;
-        return false;
+        if (y < 40)
+            return 40;
+        if (y > 660)
+            return 660;
+        return 0;
     }
 
     function ballsCollsion(x1: number, y1: number, x2: number, y2: number) {
@@ -116,19 +122,37 @@ export function PoolGame() {
         const angle = Math.atan((y2 - y1) / (x2 - x1));
         return angle;
     }
-    function isInPocket(x: number, y: number) {
-        if (x < 50 && y < 50)
+    function isInPocket(i: number) {
+        let value = 5;
+        if (i == 0) {
+            value = -5;
+        }
+        const x = ballPosRef.current[i][0];
+        const y = ballPosRef.current[i][1];
+        if (x < 50 && y < 50) {
+            setScore(prev => prev + value);
             return true;
-        if (x > 1350 && y < 50)
+        }
+        if (x > 1350 && y < 50) {
+            setScore(prev => prev + value);
             return true;
-        if (x > 1350 && y > 650)
+        }
+        if (x > 1350 && y > 650) {
+            setScore(prev => prev + value);
             return true;
-        if (x < 50 && y > 650)
+        }
+        if (x < 50 && y > 650) {
+            setScore(prev => prev + value);
             return true;
-        if (675 < x && x < 725 && y > 650)
+        }
+        if (675 < x && x < 725 && y > 650) {
+            setScore(prev => prev + value);
             return true;
-        if (675 < x && x < 725 && y < 50)
+        }
+        if (675 < x && x < 725 && y < 50) {
+            setScore(prev => prev + value);
             return true;
+        }
         return false;
     }
 
@@ -165,7 +189,7 @@ export function PoolGame() {
             areBallsMoving.current = false;
             for (let i = 0; i < poolBalls.length; i++) {
                 if (ballPosRef.current && ballVelRef.current) {
-                    if (isInPocket(ballPosRef.current[i][0], ballPosRef.current[i][1]))
+                    if (!pottedRef.current[i] && isInPocket(i))
                         pottedRef.current[i] = true;
                     if (pottedRef.current[i])
                         continue;
@@ -191,9 +215,11 @@ export function PoolGame() {
                     }
 
                     if (isCollideX(ballPosRef.current[i][0])) {
+                        ballPosRef.current[i][0] = isCollideX(ballPosRef.current[i][0]);
                         ballVelRef.current[i][0] *= -1;
                     }
                     if (isCollideY(ballPosRef.current[i][1])) {
+                        ballPosRef.current[i][1] = isCollideY(ballPosRef.current[i][1]);
                         ballVelRef.current[i][1] *= -1;
                     }
 
@@ -217,6 +243,7 @@ export function PoolGame() {
         < div id="pool-game" >
             <canvas width="1400px" height="700px" ref={canvasRef} onClick={(event) => addWhiteVel(event)} />
             <button id="resetButton" onClick={reset}>Reset Game</button>
+            <div id="score">{score}</div>
         </div >
     );
 
