@@ -68,8 +68,10 @@ export function PoolGame() {
             const canvas = canvasRef.current;
             if (canvas) {
                 const rect = (canvas as HTMLCanvasElement).getBoundingClientRect();
-                const x = event.clientX - rect.left;
-                const y = event.clientY - rect.top;
+                const scaleX = canvas.width / rect.width;
+                const scaleY = canvas.height / rect.height;
+                const x = (event.clientX - rect.left) * scaleX;
+                const y = (event.clientY - rect.top) * scaleY;
                 ballPosRef.current[0][0] = x;
                 ballPosRef.current[0][1] = y;
                 ballVelRef.current[0][0] = 0;
@@ -82,8 +84,10 @@ export function PoolGame() {
         const canvas = canvasRef.current;
         if (canvas) {
             const rect = (canvas as HTMLCanvasElement).getBoundingClientRect();
-            const x = event.clientX - rect.left;
-            const y = event.clientY - rect.top;
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            const x = (event.clientX - rect.left) * scaleX;
+            const y = (event.clientY - rect.top) * scaleY;
 
             const dx = (x - ballPosRef.current[0][0]) / 50;
             const dy = (y - ballPosRef.current[0][1]) / 50;
@@ -164,12 +168,21 @@ export function PoolGame() {
         let mouseY = 0;
         if (!canvas) return;
         const ctx = (canvas as HTMLCanvasElement).getContext("2d");
+        let rect = canvas.getBoundingClientRect();
+        let scaleX = canvas.width / rect.width;
+        let scaleY = canvas.height / rect.height;
         const updateMousePosition = (event: MouseEvent) => {
-            const rect = canvas.getBoundingClientRect();
-            mouseX = event.clientX - rect.left;
-            mouseY = event.clientY - rect.top;
+            mouseX = (event.clientX - rect.left) * scaleX;
+            mouseY = (event.clientY - rect.top) * scaleY;
         };
-
+        const updateRectAndScale = () => {
+            if (!canvas) return;
+            rect = canvas.getBoundingClientRect();
+            scaleX = canvas.width / rect.width;
+            scaleY = canvas.height / rect.height;
+        };
+        window.addEventListener('resize', updateRectAndScale);
+        updateRectAndScale();
         canvas.addEventListener('mousemove', updateMousePosition);
         if (!ctx) return;
         let animationFrameId: number;
@@ -239,6 +252,7 @@ export function PoolGame() {
         animationFrameId = requestAnimationFrame(draw);
         return () => cancelAnimationFrame(animationFrameId);
     }, [poolBalls, reset])
+
     return (
         < div id="pool-game" >
             <canvas width="1400px" height="700px" ref={canvasRef} onClick={(event) => addWhiteVel(event)} />

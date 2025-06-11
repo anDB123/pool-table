@@ -11,9 +11,13 @@ $cushionColor: #0a4806;
 $cushionTightness: 30px;
 $pipSize: 20px;
 
+#pool-container {
+  width: 100vw;
+  justify-content: center;
+  align-items: center;
+}
 
 #backboard {
-  margin: auto;
   display: flex;
   width: $tableWidth + $woodWidth*2;
   height: $tableHeight + $woodWidth *2;

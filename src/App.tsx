@@ -1,9 +1,29 @@
+import { useEffect } from 'react'
 import './App.scss'
 import { PoolGame } from './PoolGame'
 function App() {
+
+  useEffect(() => {
+    const handleResize = () => {
+      // Handle window resize logic here
+      console.log('Window resized:', window.innerWidth, window.innerHeight);
+      const backboard = document.getElementById('backboard');
+      if (backboard) {
+        const scale = window.innerWidth * 0.9 / backboard.offsetWidth;
+        backboard.style.transform = `scale(${scale})`;
+        backboard.style.transformOrigin = 'top left';
+      }
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   return (
-    <>
-      <div id="backboard">
+    <div id='pool-container'>
+      <div id="backboard" >
         <div id="cloth">
           {PoolGame()}
           <div id="pocket1"></div>
@@ -42,7 +62,7 @@ function App() {
         </div >
       </div >
 
-    </>
+    </div>
   )
 }
 
